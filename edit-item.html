@@ -7,9 +7,39 @@
 </head>
 <body>
 	<div>
-		<input type="text" name="edit-list">
+		<input id="input-edit" type="text" name="edit-list">
 		<button id="btn-edtlist">EDIT</button>
-		<script type="text/javascript"></script>
-	</div>
-</body>
-</html>
+	</div>	
+	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+	<script type="text/javascript">
+		    var idItems =window.location.hash; 
+			//c1
+			var x = parseInt(idItems.slice(1));
+			var url = 'http://localhost:3000/todos';
+			var url1 = 'http://localhost:3000/todos/'+ x;
+			var input = document.getElementById('input-edit');
+			var btnEdit = document.getElementById('btn-edtlist');
+            
+            btnEdit.addEventListener('click', editItem);
+
+
+			axios.get(url).then(function(response){
+				input.value = response.data[x -1].content;
+			}).catch(function(err){
+				console.log(err);
+			});
+
+			function editItem(){
+				axios.patch(url1,{
+					content: input.value
+				}).then(function(res){
+					console.log(res.data);
+					window.location.href='/';
+				}).catch(function(err){
+					console.log(err);
+				})
+			}
+		</script>
+	</body>
+	</html>
+	

@@ -7,7 +7,38 @@
 </head>
 <body>
 	<div>
+		<h2>To do list</h2>
 		<ul id="todo-list"></ul>
 	</div>
+	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+	<script type="text/javascript">
+		var url = 'http://localhost:3000/todos';
+		var listItem = document.getElementById("todo-list");
+
+		listItem.addEventListener('click', editItem);
+
+		axios.get(url).then(function(response){
+			var list = response.data;
+			render(list);
+			console.log(list);
+		}).catch(function(err){
+			console.log(err);
+		});
+
+		function editItem(event){
+			var edtBtn = event.target;
+			var id = parseInt(edtBtn.dataset.id) + 1;
+			if( id){
+				window.location.href = '/edit-item.html#'+id;
+			}
+		}
+
+		function render(lists){
+			var items = lists.map(function(item,i){
+				return '<li>'+ item.content +'   <button data-id='+i +'>Edit</button></li>'
+			});
+			listItem.innerHTML = items.join('');
+		}
+	</script>
 </body>
 </html>

@@ -7,8 +7,33 @@
 </head>
 <body>
 	<div>
-		<input type="text" name="list">
+		<input id="input-list" type="text" name="list">
 		<button id="btn-add">ADD</button>
+		<button id="btn-show">Show List</button>
 	</div>
+	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+	<script type="text/javascript">
+		var url = 'http://localhost:3000/todos';
+
+		var input = document.getElementById('input-list');
+		var button = document.getElementById('btn-add');
+		var btnShow = document.getElementById('btn-show');
+
+		button.addEventListener('click', addList);
+		btnShow.addEventListener('click', showList);
+
+		function addList(){
+			var items = {content: input.value};
+			axios.post(url, items).then(function(response){
+				window.location.href ='/new-item.html';
+			}).catch(function(err){
+				console.log(err);
+			});
+			input.value = '';
+		}
+		function showList(){
+			window.location.href = '/new-item.html';
+		}
+	</script>
 </body>
 </html>
